@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Create Project</title>
+</head>
+<body>
+	<h2>Create Project</h2>
+	<form>
+		<label for="project_name">Project Name:</label><br>
+		<input type="text" id="project_name" name="project_name"><br><br>
+		<input type="submit" value="Create">
+	</form> 
+
+	<script>
+		const form = document.querySelector('form');
+		form.addEventListener('submit', function(event) {
+			event.preventDefault(); // 防止表单提交
+			const input_data = {
+				project_name: document.querySelector('#project_name').value
+			};
+			fetch('/build_project/', {
+				method: 'POST',
+				body: JSON.stringify(input_data),
+				headers: {
+					'Content-Type': 'application/json'
+				}
+			})
+			.then(response => response.json())
+			.then(data => {
+				if (data.status === 'OK') {
+					window.location.href = `/project/${data.project_id}`; // 创建项目成功后跳转到项目页面
+				} else {
+					alert('Failed to create project.'); // 提示创建项目失败
+				}
+			})
+			.catch(error => {
+				console.error('Error:', error);
+			});
+		});
+	</script>
+</body>
+</html>

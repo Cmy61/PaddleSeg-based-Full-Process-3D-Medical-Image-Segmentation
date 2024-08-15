@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Login Page</title>
+</head>
+<body>
+	<h2>Login</h2>
+	<form>
+		<label for="account">Account:</label><br>
+		<input type="text" id="account" name="account"><br>
+		<label for="password">Password:</label><br>
+		<input type="password" id="password" name="password"><br><br>
+		<input type="submit" value="Submit">
+	</form> 
+
+	<script>
+		const form = document.querySelector('form');
+		form.addEventListener('submit', function(event) {
+			event.preventDefault(); // 防止表单提交
+			const input_data = {
+				account: document.querySelector('#account').value,
+				password: document.querySelector('#password').value
+			};
+			fetch('/login/', {
+				method: 'POST',
+				body: JSON.stringify(input_data),
+				headers: {
+					'Content-Type': 'application/json'
+				}
+			})
+			.then(response => response.json())
+			.then(data => {
+				if (data.status === 'OK') {
+					window.location.href = '/dashboard/'; // 登录成功后跳转到仪表盘页面
+				} else {
+					alert(data.reason); // 提示登录失败的原因
+				}
+			})
+			.catch(error => {
+				console.error('Error:', error);
+			});
+		});
+	</script>
+</body>
+</html>

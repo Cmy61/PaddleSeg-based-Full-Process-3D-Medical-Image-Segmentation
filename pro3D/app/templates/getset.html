@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>My Sets</title>
+</head>
+<body>
+    <h1>My Sets</h1>
+    <ul id="set-list">
+    </ul>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $.ajax({
+                type: 'POST',
+                url: '/get_sets/',
+                dataType: 'json',
+                success: function(response) {
+                    if (response.status === 'OK') {
+                        const setList = $('#set-list');
+                        const sets = response.sets;
+                        for (let setId in sets) {
+                            setList.append(`<li>${setId}: ${sets[setId]}</li>`);
+                        }
+                        if ($.isEmptyObject(sets)) {
+                            setList.append('<li>No sets found.</li>');
+                        }
+                    } else {
+                        console.log('Error:', response.reason);
+                    }
+                },
+                error: function(xhr, status, error) {
+                    console.log('Error:', error);
+                }
+            });
+        });
+    </script>
+</body>
+</html>

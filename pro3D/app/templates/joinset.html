@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Set Join</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<script>
+		function joinSets() {
+			var project_id = document.getElementById("project_id").value;
+			var sets_id_list = document.getElementById("sets_id_list").value;
+
+			var xhr = new XMLHttpRequest();
+			var url = "/join_sets/";
+			xhr.open("POST", url, true);
+			xhr.setRequestHeader("Content-Type", "application/json");
+
+			xhr.onreadystatechange = function() {
+				if (xhr.readyState === 4 && xhr.status === 200) {
+					var response = JSON.parse(xhr.responseText);
+					if (response.status === "OK") {
+						document.getElementById("result").innerHTML = "Sets joined successfully!";
+					} else {
+						document.getElementById("result").innerHTML = "Error: " + response.reason;
+					}
+				}
+			};
+
+			var data = JSON.stringify({
+				"project_id": project_id,
+				"sets_id_list": sets_id_list
+			});
+
+			xhr.send(data);
+		}
+	</script>
+</head>
+<body>
+	<h2>Join Sets to Project</h2>
+	<form>
+		<label for="project_id">Project ID:</label>
+		<input type="text" id="project_id" name="project_id"><br><br>
+		<label for="sets_id_list">Set ID List:</label>
+		<input type="text" id="sets_id_list" name="sets_id_list"><br><br>
+		<input type="button" value="Join Sets" onclick="joinSets()">
+	</form>
+	<br>
+	<p id="result"></p>
+</body>
+</html>

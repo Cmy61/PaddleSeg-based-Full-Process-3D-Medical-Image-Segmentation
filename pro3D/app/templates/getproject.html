@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Projects</title>
+</head>
+<body>
+	<h2>Projects</h2>
+	<ul id="project-list"></ul>
+
+	<script>
+		fetch('/get_projects/', {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			credentials: 'include' // 发送请求时带上cookies
+		})
+		.then(response => response.json())
+		.then(data => {
+			if (data.status === 'OK') {
+				const projects = data.projects;
+				const projectList = document.getElementById('project-list');
+				for (const projectId in projects) {
+					const projectName = projects[projectId];
+					const listItem = document.createElement('li');
+					listItem.innerText = projectName;
+					projectList.appendChild(listItem);
+				}
+			} else {
+				alert(data.reason); // 提示获取项目信息失败的原因
+			}
+		})
+		.catch(error => {
+			console.error('Error:', error);
+		});
+	</script>
+</body>
+</html>

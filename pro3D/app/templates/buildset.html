@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Create a CT Set</title>
+</head>
+<body>
+	<h2>Create a CT Set</h2>
+	<form>
+		<label for="set_name">Set Name:</label><br>
+		<input type="text" id="set_name" name="set_name"><br>
+		<label for="project_id">Project ID:</label><br>
+		<input type="text" id="project_id" name="project_id"><br><br>
+		<input type="submit" value="Submit">
+	</form> 
+
+	<script>
+		const form = document.querySelector('form');
+		form.addEventListener('submit', function(event) {
+			event.preventDefault(); // 防止表单提交
+			const input_data = {
+				set_name: document.querySelector('#set_name').value,
+				project_id: document.querySelector('#project_id').value
+			};
+			fetch('/build_set/', {
+				method: 'POST',
+				body: JSON.stringify(input_data),
+				headers: {
+					'Content-Type': 'application/json'
+				}
+			})
+			.then(response => response.json())
+			.then(data => {
+				if (data.status === 'OK') {
+					alert(`CT Set created with ID ${data.set_id}`);
+				} else {
+					alert('Error creating CT Set');
+				}
+			})
+			.catch(error => {
+				console.error('Error:', error);
+			});
+		});
+	</script>
+</body>
+</html>
