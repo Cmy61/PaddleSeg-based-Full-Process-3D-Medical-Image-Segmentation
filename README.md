@@ -1,24 +1,2 @@
-# vof
-
-## Project setup
-```
-yarn install
-```
-
-### Compiles and hot-reloads for development
-```
-yarn serve
-```
-
-### Compiles and minifies for production
-```
-yarn build
-```
-
-### Lints and fixes files
-```
-yarn lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+Executed 3D medical image segmentation tasks with excellent generalization using PaddlePaddle.   
+Developed a comprehensive 3D medical data analysis platform using Python, Django, and MySQL for data import, segmentation, visualization, and analysis. 
